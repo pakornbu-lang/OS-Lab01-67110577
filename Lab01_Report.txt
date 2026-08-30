@@ -1,16 +1,18 @@
 ======================================================
 COE67-XXX Operating Systems - Lab 01 Report
 Name: 
-Student ID: 
+Student ID: 67110577 
 ======================================================
 
-1. Hardware Baseline:
-- OS Version:
-- Number of CPU Cores:
-- Total RAM:
+1. Hardware Baseline
+- OS Version: Linux 6.8.0-1052-azure
+- Number of CPU Cores: 2
+- Total RAM: 7.76 GB
 
-2. Observation (from htop during stress test):
-[Write your answer here]
+2. Observation
+- Behavior: During the CPU stress test, the Python script utilized 100% of only 1 CPU core (Core 0 or Core 1), while the other core remained mostly idle.
+- Explanation: This happens because standard Python execution is single-threaded due to the Global Interpreter Lock (GIL). The OS scheduler assigns the single-threaded workload of stress_test.py to only one CPU core at a time.
 
-3. Analysis:
-[Write your answer here]
+3. Analysis
+- Memory Limits: Machine Learning datasets can be huge (e.g., 500,000 images). Knowing system RAM (7.76 GB) prevents Out-Of-Memory (OOM) crashes by ensuring data is loaded in smaller batches (using Data Loaders) instead of loading the entire dataset into memory at once.
+- CPU Core Count: Knowing the number of available CPU cores (2 cores) allows developers to optimize data preprocessing by setting multi-processing workers (e.g., num_workers in PyTorch/TensorFlow) to fully utilize all CPU cores in parallel.
