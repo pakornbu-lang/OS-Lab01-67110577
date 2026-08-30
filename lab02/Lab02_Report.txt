@@ -1,0 +1,17 @@
+======================================================
+COE67-222 Operating Systems - Lab 02 Report
+Name: Pakorn Bunkongmak
+Student ID: 67110577
+======================================================
+1. Execution Time Comparison:
+- Sequential Time: 10.95 seconds
+- Multithreading Time: 10.69 seconds
+- Multiprocessing Time: 8.54 seconds
+
+2. System Observation (htop):
+When running Multithreading, only 1 CPU core operates at high usage because Python's GIL prevents simultaneous thread execution. 
+In contrast, when running Multiprocessing, ALL available CPU cores spike to high utilization simultaneously, as the OS creates distinct processes that run fully in parallel across multiple cores.
+
+3. Analysis (The GIL):
+Multithreading failed to speed up the execution because standard CPython uses a Global Interpreter Lock (GIL), which forces threads to take turns executing Python bytecodes, making it effective only for I/O-bound tasks. 
+For CPU-bound tasks (like ML data augmentation), Multiprocessing is the better choice because each process spawns its own Python interpreter instance with its own GIL and separate memory space, allowing true OS-level parallel processing.
