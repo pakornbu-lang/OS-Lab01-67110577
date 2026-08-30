@@ -1,0 +1,18 @@
+======================================================
+COE67-222 Operating Systems - Lab 04 Report
+Name: Pakorn Bunkongmak
+Student ID: 67110577
+======================================================
+1. The Deadlock (Phase 2):
+In deadlock_simulation.py, Model A acquired GPU 0 and requested GPU 1, while Model B acquired GPU 1 and requested GPU 0. Because both models were holding one resource while waiting for another, a Circular Wait condition was formed (Model A -> GPU 1 -> Model B -> GPU 0 -> Model A), causing an infinite execution freeze.
+
+2. The Solution (Phase 3):
+By forcing Model B to request GPU 0 before GPU 1 in deadlock_avoidance.py, we established a strict Resource Hierarchy (Lock Ordering). This broke the Circular Wait condition because Model B could no longer hold GPU 1 while waiting for GPU 0; both models must now queue for GPU 0 first.
+
+3. Starvation vs Deadlock (Phase 4):
+- Difference: In the Deadlock script, the entire system completely froze and made no progress at all. In the Starvation script, the system remained active and kept processing, but the Polite_Model was disproportionately denied CPU access compared to the greedy models.
+- Aging Solution: A process scheduler uses "Aging" by gradually increasing the priority of processes that have been waiting in the queue for a long time. Over time, the Polite_Model's priority will become high enough to preempt greedy processes and guarantee a fair share of CPU execution time.
+
+4. Deadlock Detection & Recovery (Phase 5):
+- The `timeout` parameter simulated Deadlock Detection by setting a threshold for how long a process can wait for a lock. If the timer expires without acquiring the lock, the system assumes a deadlock has occurred.
+- When detected, Model A performed Recovery by releasing its previously acquired resource (GPU 0) back to the system. This preemption allowed Model B to acquire GPU 0 and finish its execution safely.
