@@ -1,0 +1,15 @@
+======================================================
+COE67-222 Operating Systems - Lab 03 Report
+Name: Pakorn Bunkongmak
+Student ID: 67110577
+======================================================
+1. The Race Condition (Phase 2):
+In race_condition.py, the shared variable updates are non-atomic (Read-Modify-Write). Because of time.sleep(), the OS Scheduler interrupts Thread 1 right after it reads the initial weight value and switches context to Thread 2. Thread 2 reads the same initial value, increments it, and writes back. When Thread 1 resumes, it overwrites Thread 2's changes with its own outdated calculated value, causing lost updates and making the final weight less than expected.
+
+2. Mutex vs. Semaphore (Phase 3):
+- The mutex (Lock) ensures Mutual Exclusion by protecting the Critical Section (buffer, in_index, out_index) so that only one thread (Producer or Consumer) can access and modify the shared memory at a time.
+- The empty and full semaphores handle Synchronization. empty tracks available slots in the buffer (blocking Producer when full), while full tracks available items (blocking Consumer when empty). A Mutex alone cannot track resource counts or signal condition changes between threads.
+
+3. Deadlock Awareness:
+If we swap to mutex.acquire() first and then empty.acquire(), when the buffer becomes completely full, the Producer will acquire the Mutex (locking the buffer) and then try to acquire empty. Since the buffer is full (empty = 0), the Producer is put to sleep while still holding the Mutex.
+When the Consumer tries to run, it gets blocked immediately at mutex.acquire() because the Producer holds the lock. This causes a Deadlock: the Producer waits for the Consumer to free a slot, but the Consumer cannot run because the Producer holds the lock.
